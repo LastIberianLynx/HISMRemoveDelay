@@ -20,6 +20,8 @@ struct Fcube2 {
 	bool bMarkedForRemoval = false;
 	UPROPERTY()
 	FGuid UniqueID;
+	UPROPERTY()
+		int32 ArrayIndex;
 
 	bool operator==(const Fcube2& Other) const
 	{
@@ -51,12 +53,30 @@ public:
 	void AddMultipleCubes(int32 GridX, int32 GridY, float SpaceBetween, FTransform OriginTransform, FVector Destination_L);
 
 	UFUNCTION(BlueprintCallable)
-	void DestroyCube(UPARAM(ref)Fcube2& cubeStruct);
+	void DestroyCube(Fcube2& cubeStruct);
+
+	UFUNCTION(BlueprintCallable)
+		void DestroyCubeDelayed(Fcube2& cubeStruct);	
+	
+	UFUNCTION(BlueprintCallable)
+		void DestroyCubeSimple(UPARAM(ref)Fcube2& cubeStruct);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<Fcube2> cubeStruct_Arr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FVector Destination = FVector(1000.f, 0.f, 0.f);
+	UPROPERTY()
+	TMap<FGuid, int32> ID_Index_Map;
+
+	UPROPERTY()
+	TMap<int32, FGuid> Index_ID_Map;
+
+	UFUNCTION(BlueprintCallable)
+	void DestroyCubeByID(FGuid ID);
+
+	TArray<FGuid> IDs_Destroyed;
+	TArray<FGuid> IDs_Created;
+
 
 };
